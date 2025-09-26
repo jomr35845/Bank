@@ -1,0 +1,231 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Inicio - Banco (mock)</title>
+  <style>
+    :root{
+      --red:#d81b2a; /* app red */
+      --bg:#f3f3f3;
+      --card:#ffffff;
+      --muted:#8b8b8b;
+      --shadow: 0 6px 18px rgba(0,0,0,0.06);
+      --radius:12px;
+      --glass: rgba(255,255,255,0.6);
+      font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+    }/* Mobile-first layout */
+html,body{height:100%;margin:0;background:var(--bg);}
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows: auto 1fr auto;
+  align-items:start;
+  gap:16px;
+  max-width:480px;
+  margin:0 auto; /* center on large screens */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.02);
+  background:linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
+}
+
+/* topbar */
+.topbar{
+  background:var(--red);
+  color:#fff;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  display:flex;gap:12px;align-items:center;
+}
+.brand .logo{
+  width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+.top-actions{display:flex;align-items:center;gap:10px}
+.top-actions button{background:transparent;border:0;color:#fff;font-weight:600}
+
+main{padding:18px;}
+
+.greeting{
+  display:flex;align-items:center;gap:12px;margin-bottom:12px;
+}
+.sun{
+  width:36px;height:36px;border-radius:50%;background:linear-gradient(180deg,#ffecb3,#ffd54f);display:flex;align-items:center;justify-content:center;box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.greeting h1{font-size:16px;margin:0;color:#333}
+.greeting p{margin:0;color:var(--muted);font-size:13px}
+
+/* card */
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:18px;
+  box-shadow:var(--shadow);
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;align-items:center;
+}
+.card .title{font-weight:700;color:#222}
+.card .subtitle{color:var(--muted);font-size:13px}
+.account-num{color:var(--muted);font-size:14px;margin-top:8px}
+.balance{font-weight:700;font-size:20px}
+
+.card .chev{width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,#fff,#f7f7f7);display:flex;align-items:center;justify-content:center;box-shadow: 0 2px 6px rgba(0,0,0,0.04);cursor:pointer}
+
+.meta{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+/* bottom nav */
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:transparent;max-width:480px;margin:0 auto;pointer-events:none;
+}
+.nav-bar{
+  background:rgba(255,255,255,0.97);backdrop-filter: blur(6px);border-radius:16px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;box-shadow:0 6px 18px rgba(0,0,0,0.06);pointer-events:auto;
+}
+.nav-item{flex:1;text-align:center;font-size:12px;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.nav-item.active{color:var(--red);font-weight:700}
+.nav-item svg{width:20px;height:20px}
+
+/* floating action button */
+.fab{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:46px;z-index:30;width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#1593e6,#0b6fb4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 8px 22px rgba(0,0,0,0.18);border:6px solid #fff;pointer-events:auto;
+}
+
+/* larger screens: center and give padding */
+@media(min-width:700px){
+  body{background:linear-gradient(180deg,#f1f4f8,#eef2f7)}
+  .app{margin-top:24px;border-radius:18px;overflow:hidden}
+  .bottom-nav{position:static;padding:18px;background:transparent}
+  .fab{bottom:64px}
+}
+
+/* small tweaks for accessibility */
+button{cursor:pointer}
+
+/* hidden details panel */
+.details{margin-top:12px;padding:12px;border-radius:10px;background:#ffffff;border:1px solid rgba(0,0,0,0.03);display:none}
+.details.show{display:block}
+
+  </style>
+</head>
+<body>
+  <div class="app" role="application">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">B</div>
+        <div aria-hidden="true" style="font-weight:600">Banco Bac</div>
+      </div>
+      <div class="top-actions">
+        <div style="font-size:14px;opacity:0.95">Salir ➜</div>
+      </div>
+    </header><main>
+  <div class="greeting">
+    <div class="sun" aria-hidden>
+      <!-- sun simple -->
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <circle cx="12" cy="12" r="4" fill="#fff" opacity="0.9"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Buenos días, <strong id="userName">Norma</strong></h1>
+      <p id="welcome">Aquí está un resumen de tus cuentas</p>
+    </div>
+  </div>
+
+  <section class="card" aria-labelledby="cuentas">
+    <div>
+      <div class="title">Cuentas personales</div>
+      <div class="subtitle" id="owner">Norma Elicia Ramirez Hernandez</div>
+      <div class="account-num" id="acct">HN - Cuenta bancaria<br><small>757007381</small></div>
+    </div>
+    <div style="text-align:right">
+      <div class="balance" id="balance">L<span id="balnum">15,561.00</span></div>
+      <div class="chev" id="detailsBtn" title="Ver más">
+        <!-- chevron -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="details" id="detailsPanel">
+      <div>Tipo: Ahorros</div>
+      <div>Último movimiento: -L250.00 (24/09/2025)</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="transferSmall">Transferir</button>
+        <button id="statements">Ver movimientos</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="meta">Última Visita: <span id="lastVisit">24/09/2025 | 08:47:54</span><br>2025 © BAC INTERNATIONAL BANK</div>
+
+</main>
+
+<!-- bottom nav and fab -->
+<div class="bottom-nav" aria-hidden>
+  <div class="nav-bar" role="navigation" aria-label="Navegación principal">
+    <div class="nav-item active" data-item="home">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>Inicio</div>
+    </div>
+    <div class="nav-item" data-item="payments">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M2 10h20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <div>Centro de pagos</div>
+    </div>
+    <div style="width:64px"></div>
+    <div class="nav-item" data-item="requests">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="3" y="8" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/></svg>
+      <div>Solicitudes</div>
+    </div>
+    <div class="nav-item" data-item="more">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v.01M12 12v.01M12 19v.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>Más</div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" id="fab" aria-label="Transferir o pagar">⇄</button>
+
+  </div>  <script>
+    // Simple interactivity using Grid + JS
+    const detailsBtn = document.getElementById('detailsBtn');
+    const detailsPanel = document.getElementById('detailsPanel');
+    detailsBtn.addEventListener('click', ()=>{
+      detailsPanel.classList.toggle('show');
+    });
+
+    // Floating action button behavior
+    document.getElementById('fab').addEventListener('click', ()=>{
+      alert('Acción: Transferir o pagar — implementa la lógica aquí');
+    });
+
+    // small transfer inside card
+    document.getElementById('transferSmall').addEventListener('click', ()=>{
+      const amt = prompt('¿Cuánto deseas transferir?','250');
+      if(!amt) return;
+      const current = parseFloat(document.getElementById('balnum').textContent.replace(/,/g,''));
+      const newBal = (current - parseFloat(amt)).toFixed(2);
+      document.getElementById('balnum').textContent = newBal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      alert('Transferencia simulada de L' + amt);
+    });
+
+    // simple nav active state
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.addEventListener('click', ()=>{
+        document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // Make page responsive: adjust font sizes on larger screens
+    function adjustForWidth(){
+      const w = window.innerWidth;
+      if(w>420) document.documentElement.style.fontSize='15px';
+      if(w>700) document.documentElement.style.fontSize='16px';
+    }
+    window.addEventListener('resize', adjustForWidth);
+    adjustForWidth();
+
+  </script></body>
+</html>
